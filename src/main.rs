@@ -2,11 +2,13 @@ use crate::bird::Bird;
 use std::time::Duration;
 
 use base::Base;
+use pipe::PipeHandler;
 use sdl2::{event::Event, image::LoadTexture, keyboard::Keycode, pixels::Color};
 use sky::Sky;
 
 mod base;
 mod bird;
+mod pipe;
 mod sky;
 mod wrap_texture;
 
@@ -25,19 +27,29 @@ fn main() {
     let sky_texture = texture_creator.load_texture("assets/sky.png").unwrap();
     let bird_texture = texture_creator.load_texture("assets/bird.png").unwrap();
     let base_texture = texture_creator.load_texture("assets/base.png").unwrap();
+    let pipe_texture = texture_creator.load_texture("assets/pipe.png").unwrap();
 
     canvas.set_draw_color(Color::RGB(145, 246, 250));
 
     let mut bird = Bird::default();
     let mut base = Base::new(5.0);
     let mut sky = Sky::new(0.5);
+    let mut pipes = PipeHandler::new(5.0, 30, 280);
+    pipes.spawn(&canvas);
 
+    let mut i = 0;
     'running: loop {
+        i = (i + 1) % 59;
         canvas.clear();
+
+        if i == 0 {
+            pipes.spawn(&canvas);
+        }
 
         bird.update();
         base.update(&canvas);
         sky.update(&canvas);
+        pipes.update();
 
         for event in event_pump.poll_iter() {
             match event {
@@ -51,6 +63,7 @@ fn main() {
         }
 
         sky.render(&sky_texture, &mut canvas);
+        pipes.render(&pipe_texture, &mut canvas);
         base.render(&base_texture, &mut canvas);
         bird.render(&bird_texture, &mut canvas);
 

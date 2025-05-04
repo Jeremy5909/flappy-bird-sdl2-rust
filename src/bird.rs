@@ -34,6 +34,9 @@ impl Bird {
     pub fn jump(&mut self) {
         self.velocity = -self.jump_height;
     }
+    pub fn position(&self) -> (i32, i32) {
+        (self.x, self.y)
+    }
 }
 
 impl Default for Bird {
