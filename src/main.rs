@@ -8,6 +8,7 @@ use sky::Sky;
 mod base;
 mod bird;
 mod sky;
+mod wrap_texture;
 
 fn main() {
     let sdl_context = sdl2::init().unwrap();
@@ -28,7 +29,7 @@ fn main() {
     canvas.set_draw_color(Color::RGB(145, 246, 250));
 
     let mut bird = Bird::default();
-    let mut base = Base::new(5);
+    let mut base = Base::new(5.0);
     let mut sky = Sky::new(0.5);
 
     'running: loop {

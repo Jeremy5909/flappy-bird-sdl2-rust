@@ -1,45 +1,30 @@
 use sdl2::{
-    rect::Rect,
     render::{Canvas, Texture},
     video::Window,
 };
 
+use crate::wrap_texture::{render_wrapped, update_wrap_x};
+
 pub struct Base {
-    x: i32,
-    speed: u32,
+    x: f32,
+    speed: f32,
 }
 impl Base {
-    pub fn new(speed: u32) -> Self {
-        Self { x: 0, speed }
+    pub fn new(speed: f32) -> Self {
+        Self { x: 0.0, speed }
     }
     pub fn update(&mut self, canvas: &Canvas<Window>) {
-        self.x = (self.x + self.speed as i32) % (canvas.window().size().0 as i32);
+        update_wrap_x(&mut self.x, self.speed, canvas);
     }
     pub fn render(&self, texture: &Texture, canvas: &mut Canvas<Window>) {
         let (width, height) = canvas.window().size();
-        canvas
-            .copy(
-                texture,
-                None,
-                Some(Rect::new(
-                    -self.x,
-                    3 * (height as i32) / 4,
-                    width,
-                    height / 4,
-                )),
-            )
-            .unwrap();
-        canvas
-            .copy(
-                texture,
-                None,
-                Some(Rect::new(
-                    -self.x + width as i32,
-                    3 * (height as i32) / 4,
-                    width,
-                    height / 4,
-                )),
-            )
-            .unwrap();
+        render_wrapped(
+            &self.x,
+            3 * (height as i32) / 4,
+            width,
+            height / 4,
+            texture,
+            canvas,
+        );
     }
 }
