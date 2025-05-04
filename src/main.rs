@@ -2,13 +2,14 @@ use crate::bird::Bird;
 use std::time::Duration;
 
 use base::Base;
-use pipe::PipeHandler;
+use pipe_handler::PipeHandler;
 use sdl2::{event::Event, image::LoadTexture, keyboard::Keycode, pixels::Color};
 use sky::Sky;
 
 mod base;
 mod bird;
 mod pipe;
+mod pipe_handler;
 mod sky;
 mod wrap_texture;
 
@@ -57,12 +58,12 @@ fn main() {
         sky.update(&canvas);
         pipes.update();
 
-        let base_colliding = base.colliding(bird.position(), &canvas);
+        /* let base_colliding = base.colliding(bird.position(), &canvas);
         let roof_colliding = bird.position().1 <= 0;
         let pipes_colliding = pipes.colliding(bird.position(), &mut canvas);
         if base_colliding || roof_colliding || pipes_colliding {
             break;
-        }
+        } */
 
         for event in event_pump.poll_iter() {
             match event {
