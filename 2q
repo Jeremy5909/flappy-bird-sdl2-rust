@@ -26,13 +26,13 @@ fn main() {
     canvas.set_draw_color(Color::RGB(145, 246, 250));
 
     let mut bird = Bird::new();
-    let mut base = Base::new(5);
+    let mut base = Base::new();
 
     'running: loop {
         canvas.clear();
 
         canvas.copy(&sky_texture, None, None).unwrap();
-        base.update(&canvas);
+        base.update();
         base.render(&base_texture, &mut canvas);
 
         for event in event_pump.poll_iter() {
