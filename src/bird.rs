@@ -1,6 +1,3 @@
-const GRAVITY: f32 = 1.0 / 3.0;
-const JUMP_HEIGHT: f32 = 10.0;
-
 use sdl2::{
     rect::Rect,
     render::{Canvas, Texture},
@@ -8,26 +5,39 @@ use sdl2::{
 };
 
 pub struct Bird {
+    x: i32,
     y: i32,
     velocity: f32,
+    gravity: f32,
+    jump_height: f32,
 }
 impl Bird {
-    pub fn new() -> Self {
+    pub fn new(x: i32, y: i32, gravity: f32, jump_height: f32) -> Self {
         Self {
-            y: 100,
+            x,
+            y,
             velocity: 0.0,
+            gravity,
+            jump_height,
         }
     }
+
     pub fn update(&mut self) {
-        self.velocity += GRAVITY;
+        self.velocity += self.gravity;
         self.y += self.velocity as i32;
     }
     pub fn render(&self, texture: &Texture, canvas: &mut Canvas<Window>) {
         canvas
-            .copy(texture, None, Some(Rect::new(10, self.y, 50, 40)))
+            .copy(texture, None, Some(Rect::new(self.x, self.y, 50, 40)))
             .unwrap();
     }
     pub fn jump(&mut self) {
-        self.velocity = -JUMP_HEIGHT;
+        self.velocity = -self.jump_height;
+    }
+}
+
+impl Default for Bird {
+    fn default() -> Self {
+        Self::new(20, 50, 1.0 / 3.0, 10.0)
     }
 }

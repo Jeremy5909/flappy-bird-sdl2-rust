@@ -25,7 +25,7 @@ fn main() {
 
     canvas.set_draw_color(Color::RGB(145, 246, 250));
 
-    let mut bird = Bird::new();
+    let mut bird = Bird::default();
     let mut base = Base::new(5);
 
     'running: loop {
