@@ -37,13 +37,23 @@ impl Pipe {
             speed,
         }
     }
+    pub fn rect(&self, window_height: i32) -> Rect {
+        let ground_height = window_height / 4;
+        let texture_height = 320;
+        match self.side {
+            Side::Top => {
+                let y = -texture_height + self.height;
+                Rect::new(self.x as i32, y, 52, texture_height as u32)
+            }
+            Side::Bottom => {
+                let y = window_height - ground_height - self.height;
+                Rect::new(self.x as i32, y, 52, 320)
+            }
+        }
+    }
     pub fn update(&mut self) {
         self.x -= self.speed;
     }
-    pub fn colliding(&self, target: Rect, canvas: &Canvas<Window>) -> bool {
-        false
-    }
-
     pub fn render(&self, texture: &Texture, canvas: &mut Canvas<Window>) {
         let window_height = canvas.window().size().1 as i32;
         canvas
@@ -60,19 +70,5 @@ impl Pipe {
                 },
             )
             .unwrap();
-    }
-    pub fn rect(&self, window_height: i32) -> Rect {
-        let ground_height = window_height / 4;
-        let texture_height = 320;
-        match self.side {
-            Side::Top => {
-                let y = -texture_height + self.height;
-                Rect::new(self.x as i32, y, 52, texture_height as u32)
-            }
-            Side::Bottom => {
-                let y = window_height - ground_height - self.height;
-                Rect::new(self.x as i32, y, 52, 320)
-            }
-        }
     }
 }

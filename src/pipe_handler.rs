@@ -40,7 +40,10 @@ impl PipeHandler {
 
     pub fn colliding(&self, target: Rect, canvas: &mut Canvas<Window>) -> bool {
         for pipe in &self.pipes {
-            if pipe.colliding(target, canvas) {
+            if pipe
+                .rect(canvas.window().size().1 as i32)
+                .contains_rect(target)
+            {
                 return true;
             }
         }

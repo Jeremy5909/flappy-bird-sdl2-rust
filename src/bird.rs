@@ -26,10 +26,11 @@ impl Bird {
         self.velocity += self.gravity;
         self.y += self.velocity as i32;
     }
+    pub fn rect(&self) -> Rect {
+        Rect::new(self.x, self.y, 50, 40)
+    }
     pub fn render(&self, texture: &Texture, canvas: &mut Canvas<Window>) {
-        canvas
-            .copy(texture, None, Some(Rect::new(self.x, self.y, 50, 40)))
-            .unwrap();
+        canvas.copy(texture, None, Some(self.rect())).unwrap();
     }
     pub fn jump(&mut self) {
         self.velocity = -self.jump_height;

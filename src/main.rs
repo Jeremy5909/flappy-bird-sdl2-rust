@@ -58,12 +58,12 @@ fn main() {
         sky.update(&canvas);
         pipes.update();
 
-        /* let base_colliding = base.colliding(bird.position(), &canvas);
+        let base_colliding = base.colliding(bird.position(), &canvas);
         let roof_colliding = bird.position().1 <= 0;
-        let pipes_colliding = pipes.colliding(bird.position(), &mut canvas);
+        let pipes_colliding = pipes.colliding(bird.rect(), &mut canvas);
         if base_colliding || roof_colliding || pipes_colliding {
             break;
-        } */
+        }
 
         for event in event_pump.poll_iter() {
             match event {
