@@ -45,6 +45,7 @@ fn main() {
     let mut i = 0;
     'running: loop {
         i = (i + 1) % 59;
+
         canvas.clear();
 
         if i == 0 {
@@ -55,6 +56,13 @@ fn main() {
         base.update(&canvas);
         sky.update(&canvas);
         pipes.update();
+
+        let base_colliding = base.colliding(bird.position(), &canvas);
+        let roof_colliding = bird.position().1 <= 0;
+        let pipes_colliding = pipes.colliding(bird.position(), &mut canvas);
+        if base_colliding || roof_colliding || pipes_colliding {
+            break;
+        }
 
         for event in event_pump.poll_iter() {
             match event {

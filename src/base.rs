@@ -27,4 +27,7 @@ impl Base {
             canvas,
         );
     }
+    pub fn colliding(&self, target: (i32, i32), canvas: &Canvas<Window>) -> bool {
+        target.1 >= 3 * (canvas.window().size().1 as i32) / 4
+    }
 }
