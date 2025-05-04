@@ -42,7 +42,7 @@ impl PipeHandler {
         for pipe in &self.pipes {
             if pipe
                 .rect(canvas.window().size().1 as i32)
-                .contains_rect(target)
+                .has_intersection(target)
             {
                 return true;
             }
