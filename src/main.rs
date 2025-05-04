@@ -20,7 +20,12 @@ fn main() {
         .position_centered()
         .build()
         .unwrap();
-    let mut canvas = window.into_canvas().build().unwrap();
+    let mut canvas = window
+        .into_canvas()
+        .accelerated()
+        .present_vsync()
+        .build()
+        .unwrap();
     let mut event_pump = sdl_context.event_pump().unwrap();
 
     let texture_creator = canvas.texture_creator();
