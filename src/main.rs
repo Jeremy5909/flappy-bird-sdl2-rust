@@ -83,6 +83,5 @@ fn main() {
         bird.render(&bird_texture, &mut canvas);
 
         canvas.present();
-        std::thread::sleep(Duration::from_secs_f32(1f32 / 60f32));
     }
 }
