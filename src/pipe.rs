@@ -27,6 +27,7 @@ pub struct Pipe {
     height: i32,
     side: Side,
     speed: f32,
+    passed: bool,
 }
 impl Pipe {
     pub fn new(speed: f32, min_height: i32, max_height: i32, canvas: &Canvas<Window>) -> Self {
@@ -35,6 +36,7 @@ impl Pipe {
             height: random_range(min_height..max_height),
             side: random(),
             speed,
+            passed: false,
         }
     }
     pub fn rect(&self, window_height: i32) -> Rect {
@@ -51,8 +53,13 @@ impl Pipe {
             }
         }
     }
-    pub fn update(&mut self) {
+    pub fn update(&mut self, player_x: f32, player_score: &mut u32) {
         self.x -= self.speed;
+        if player_x >= self.x && !self.passed {
+            self.passed = true;
+            *player_score += 1;
+            println!("{}", player_score);
+        }
     }
     pub fn render(&self, texture: &Texture, canvas: &mut Canvas<Window>) {
         let window_height = canvas.window().size().1 as i32;

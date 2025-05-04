@@ -28,8 +28,10 @@ impl PipeHandler {
             canvas,
         ));
     }
-    pub fn update(&mut self) {
-        self.pipes.iter_mut().for_each(|pipe| pipe.update());
+    pub fn update(&mut self, player_x: f32, player_score: &mut u32) {
+        self.pipes
+            .iter_mut()
+            .for_each(|pipe| pipe.update(player_x, player_score));
         self.pipes.retain(|pipe| pipe.x >= -52.0);
     }
     pub fn render(&self, texture: &Texture, canvas: &mut Canvas<Window>) {

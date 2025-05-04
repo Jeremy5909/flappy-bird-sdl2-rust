@@ -43,6 +43,7 @@ fn main() {
     let mut pipes = PipeHandler::new(5.0, 30, 280);
     pipes.spawn(&canvas);
 
+    let mut score = 0;
     let mut i = 0;
     'running: loop {
         i = (i + 1) % 59;
@@ -56,7 +57,7 @@ fn main() {
         bird.update();
         base.update(&canvas);
         sky.update(&canvas);
-        pipes.update();
+        pipes.update(bird.position().0 as f32, &mut score);
 
         let base_colliding = base.colliding(bird.position(), &canvas);
         let roof_colliding = bird.position().1 <= 0;
