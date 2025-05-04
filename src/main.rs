@@ -3,9 +3,11 @@ use std::time::Duration;
 
 use base::Base;
 use sdl2::{event::Event, image::LoadTexture, keyboard::Keycode, pixels::Color};
+use sky::Sky;
 
 mod base;
 mod bird;
+mod sky;
 
 fn main() {
     let sdl_context = sdl2::init().unwrap();
@@ -27,13 +29,14 @@ fn main() {
 
     let mut bird = Bird::default();
     let mut base = Base::new(5);
+    let mut sky = Sky::new(0.5);
 
     'running: loop {
         canvas.clear();
 
-        canvas.copy(&sky_texture, None, None).unwrap();
+        bird.update();
         base.update(&canvas);
-        base.render(&base_texture, &mut canvas);
+        sky.update(&canvas);
 
         for event in event_pump.poll_iter() {
             match event {
@@ -46,7 +49,8 @@ fn main() {
             }
         }
 
-        bird.update();
+        sky.render(&sky_texture, &mut canvas);
+        base.render(&base_texture, &mut canvas);
         bird.render(&bird_texture, &mut canvas);
 
         canvas.present();
